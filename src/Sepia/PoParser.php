@@ -533,20 +533,6 @@ class PoParser
             $isObsolete = isset($entry['obsolete']) && $entry['obsolete'];
             $isPlural = isset($entry['msgid_plural']);
 
-            if (isset($entry['previous'])) {
-                foreach ($entry['previous'] as $key => $data) {
-
-                    if (is_string($data)) {
-                        $output.= "#| " . $key . " " . $this->cleanExport($data) . "\n";
-                    } elseif (is_array($data) && count($data)>0) {
-                        foreach ($data as $line) {
-                            $output.= "#| " . $key . " " . $this->cleanExport($line) . "\n";
-                        }
-                    }
-
-                }
-            }
-
             if (isset($entry['tcomment'])) {
                 foreach ($entry['tcomment'] as $comment) {
                     $output.= "# " . $comment . "\n";
@@ -567,6 +553,20 @@ class PoParser
 
             if (isset($entry['flags']) && !empty($entry['flags'])) {
                 $output.= "#, " . implode(', ', $entry['flags']) . "\n";
+            }
+            
+            if (isset($entry['previous'])) {
+                foreach ($entry['previous'] as $key => $data) {
+
+                    if (is_string($data)) {
+                        $output.= "#| " . $key . " " . $this->cleanExport($data) . "\n";
+                    } elseif (is_array($data) && count($data)>0) {
+                        foreach ($data as $line) {
+                            $output.= "#| " . $key . " " . $this->cleanExport($line) . "\n";
+                        }
+                    }
+
+                }
             }
 
             if (isset($entry['@'])) {
